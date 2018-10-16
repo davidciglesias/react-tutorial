@@ -1,24 +1,52 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import RandomText from './RandomText';
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    const startValue = RandomText([]);
+    this.state = {
+      randomText: startValue,
+      previousValues: [startValue],
+      attempts: 0
+    }
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick(e) {
+    
+    e.preventDefault();
+
+    const newText = RandomText(this.state.previousValues);
+
+    if(this.state.previousValues.indexOf(newText) !== -1) {
+      this.setState(state =>
+        ({
+          randomText: newText,
+          attempts: state.attempts + 1 
+        })
+      );
+    } else {
+      this.setState(state =>
+        ({
+          randomText: newText,
+          previousValues: state.previousValues.concat(newText),
+          attempts: state.attempts + 1 
+        })
+      );
+    }
+  }
+
   render() {
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
+          <img onClick={this.handleClick} src={logo} className="App-logo" alt="logo" />
           <p>
-            Edit <code>src/App.js</code> and save to reload.
+            This is a spinning Winter! {this.state.randomText} {this.state.attempts}
           </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            I'm already learning React!
-          </a>
         </header>
       </div>
     );
