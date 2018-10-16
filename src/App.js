@@ -6,7 +6,7 @@ import RandomText from './RandomText';
 class App extends Component {
   constructor(props) {
     super(props);
-    const startValue = RandomText([]);
+    const startValue = RandomText({previousValues: []});
     this.state = {
       randomText: startValue,
       previousValues: [startValue],
@@ -19,8 +19,8 @@ class App extends Component {
     
     e.preventDefault();
 
-    const newText = RandomText(this.state.previousValues);
-
+    const newText = RandomText({previousValues: this.state.previousValues});
+    console.log(newText);
     if(this.state.previousValues.indexOf(newText) !== -1) {
       this.setState(state =>
         ({

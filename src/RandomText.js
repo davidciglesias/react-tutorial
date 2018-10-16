@@ -1,6 +1,7 @@
 export default RandomText;
 
-function RandomText(current) {
+function RandomText(props) {
+    const current = props.previousValues;
     console.log(current);
     const strings = 
         [
